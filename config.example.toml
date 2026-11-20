@@ -1,0 +1,19 @@
+# Optional config file (mount at /etc/eink-renderer/config.toml or point CONFIG_FILE at it).
+# Environment variables override every key here. All keys are optional except ha_url and a token source.
+ha_url = "http://homeassistant.local:8123"
+token_file = "/run/secrets/ha_token"
+dashboard_path = "/lovelace/0"
+# listen = "0.0.0.0:10001"
+# width = 800
+# height = 480
+# header_crop = 56            # HA toolbar height cropped off the top
+# threshold = 220             # dither = "none": grey >= threshold -> white
+# invert = true
+# dither = "none"             # none | atkinson | floyd-steinberg
+# theme = ""                  # HA theme name; "" = HA default. A view-level `theme:` wins.
+# dark = false
+# font_hinting = "slight"     # none | slight | medium | full
+# block_resources = []        # e.g. ["/hacsfiles/", "/local/community/"] -- see README
+# chrome_extra_flags = []
+# stale_after_secs = 300
+# cache_file = "/var/lib/eink-renderer/last.png"

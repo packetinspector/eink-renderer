@@ -1,0 +1,138 @@
+{
+  "config": {
+    "flow_title": "{name} ({host})",
+    "step": {
+      "user": {
+        "title": "Add an E-ink Renderer",
+        "description": "Enter the address of the computer running eink-renderer, for example `192.168.0.50` or `192.168.0.50:10001`.\n\nRenderers on the same network usually appear on their own under **Discovered**, so you may not need this.",
+        "data": {
+          "address": "Renderer address"
+        }
+      },
+      "setup": {
+        "title": "Set up {name}",
+        "description": "Found at `{host}`. Choose what the display should show and which display it is. Contrast, colours and theme have good defaults and can be changed later with **Configure**.{locked}",
+        "data": {
+          "dashboard_path": "What should the display show?",
+          "display": "Which display?"
+        }
+      },
+      "custom_size": {
+        "title": "Display size",
+        "description": "Size of the display in pixels.",
+        "data": {
+          "width": "Width",
+          "height": "Height"
+        }
+      },
+      "preview": {
+        "title": "This is what your display will show",
+        "description": "![Preview of the e-ink image]({preview})\n\n{view}, {size} pixels.{note} If it looks right, submit to finish. You can change the view, contrast and theme later with **Configure**.\n\nYour display will fetch `{url}`."
+      },
+      "problem": {
+        "title": "The renderer can't show the dashboard yet",
+        "description": "{problem}\n\nIf the renderer cannot reach Home Assistant, correct the address below (it must work from the renderer's computer) and try again.",
+        "data": {
+          "ha_url": "Home Assistant address, as seen by the renderer"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Pair {name} again",
+        "description": "The renderer has forgotten its pairing, for example because its data volume was reset. Submit to pair it again; your settings stay as they are."
+      }
+    },
+    "progress": {
+      "render": "Paired. Waiting for the first image; this usually takes less than 10 seconds."
+    },
+    "error": {
+      "cannot_connect": "{error} Check the address and port (the default port is 10001) and that the renderer container is running.",
+      "not_a_renderer": "That address answers, but it is not an eink-renderer. {error}",
+      "invalid_address": "Enter an address like 192.168.0.50 or 192.168.0.50:10001.",
+      "already_paired": "This renderer is already paired with another Home Assistant. If that wasn't you, reset it on its host with `docker exec eink-renderer eink-renderer --reset-pairing` (use your container's name), restart the container and try again.",
+      "no_storage": "This renderer has no data volume, so it cannot remember the pairing. Start it with `-v eink-data:/data`."
+    },
+    "abort": {
+      "already_configured": "This renderer is already set up.",
+      "cannot_connect": "The renderer stopped answering. Check that it is running and try again.",
+      "not_a_renderer": "This device does not identify itself as an eink-renderer.",
+      "already_paired": "This renderer is already paired with another Home Assistant. To pair it with this one, run `docker exec eink-renderer eink-renderer --reset-pairing` on its host (use your container's name), restart the container, then add it again.",
+      "no_storage": "This renderer has no data volume, so it cannot remember the pairing. Start it with `-v eink-data:/data` and add it again.",
+      "reauth_successful": "Paired again."
+    },
+    "create_entry": {
+      "esphome": "Done: the renderer is paired and rendering. The **E-ink** sidebar panel shows it next to the live dashboard.\n\nFor your ESPHome display, use this `online_image` block (the image URL is `{url}`):\n\n```yaml\n{esphome}```"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "E-ink display settings",
+        "description": "Changes are sent to the renderer straight away; a preview follows.{locked}",
+        "data": {
+          "dashboard_path": "What should the display show?",
+          "display": "Which display?",
+          "width": "Width (only for Other display)",
+          "height": "Height (only for Other display)",
+          "threshold": "Threshold (higher turns light grey into black)",
+          "invert": "Invert black and white",
+          "dither": "Dithering",
+          "theme": "Theme"
+        }
+      },
+      "preview": {
+        "title": "Preview",
+        "description": "![Preview of the e-ink image]({preview}){status}\n\nSubmit to keep these settings, or close this dialog to go back to the previous ones."
+      }
+    },
+    "progress": {
+      "render": "Applying the new settings and waiting for the new image…"
+    },
+    "error": {
+      "cannot_connect": "The renderer is not reachable.",
+      "rejected": "The renderer rejected these settings: {error}"
+    }
+  },
+  "selector": {
+    "dither": {
+      "options": {
+        "none": "None (sharpest text)",
+        "atkinson": "Atkinson (for photos)",
+        "floyd-steinberg": "Floyd–Steinberg"
+      }
+    }
+  },
+  "entity": {
+    "image": {
+      "display": {
+        "name": "Display"
+      }
+    },
+    "sensor": {
+      "state": {
+        "name": "State",
+        "state": {
+          "setup": "Waiting for setup",
+          "init": "Starting",
+          "starting": "Starting",
+          "loading": "Loading dashboard",
+          "running": "Running",
+          "restarting": "Restarting"
+        }
+      },
+      "last_render": {
+        "name": "Last render"
+      },
+      "memory": {
+        "name": "Memory"
+      },
+      "restarts": {
+        "name": "Browser restarts"
+      }
+    },
+    "binary_sensor": {
+      "problem": {
+        "name": "Problem"
+      }
+    }
+  }
+}

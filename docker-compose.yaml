@@ -1,0 +1,13 @@
+# Minimal: start it, then add "E-ink Renderer" in Home Assistant (Settings > Devices & services).
+# network_mode: host lets Home Assistant discover it automatically (Linux). With port mapping
+# instead (ports: ["10001:10001"]) everything works the same, but you add it by typing its address.
+services:
+  eink-renderer:
+    image: ghcr.io/packetinspector/eink-renderer:latest   # or: build: .
+    container_name: eink-renderer
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - eink-data:/data          # pairing with Home Assistant + last image
+volumes:
+  eink-data:

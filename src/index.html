@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>eink-renderer</title>
+<style>body{font:14px system-ui,sans-serif;margin:16px;background:#fff;color:#111}img{image-rendering:pixelated;border:1px solid #888;max-width:100%}code{background:#eee;padding:1px 4px}</style>
+<h1>eink-renderer</h1>
+<p><code>/eink.png</code> (what the display fetches), <code>/preview.png</code> (not inverted), <code>/grey.png</code> (before 1-bit), <code>/status</code>, <code>/healthz</code></p>
+<img id="i" src="/preview.png" width="800" height="480"><pre id="s"></pre>
+<script>
+let tag='';
+async function tick(){try{const r=await fetch('/status',{cache:'no-store'});const j=await r.json();
+if(j.image&&j.image.etag!==tag){tag=j.image.etag;document.getElementById('i').src='/preview.png?'+encodeURIComponent(tag);}
+document.getElementById('s').textContent=(j.setup&&!j.setup.configured?'Waiting to be set up: in Home Assistant open Settings > Devices & services and add "E-ink Renderer" (address '+location.host+').\n\n':(j.setup&&j.setup.paired?'Paired with Home Assistant.\n\n':''))+JSON.stringify({problem:j.status.problem?j.status.problem.kind+' (details: Home Assistant device page or container log)':null,state:j.status.engine_state,restarts:j.status.engine_restarts,last_render:new Date((j.status.last_render_at||0)*1000).toLocaleString(),memory:j.memory},null,1);}catch(e){}}
+tick();setInterval(tick,5000);
+</script>

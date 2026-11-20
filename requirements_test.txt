@@ -1,0 +1,2 @@
+# Test dependencies for the Home Assistant integration (HA 2026.10.4 test harness; target is 2026.11).
+pytest-homeassistant-custom-component==0.13.375

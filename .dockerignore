@@ -1,0 +1,8 @@
+target
+.git
+.github
+secrets
+state
+docs
+ha
+*.md

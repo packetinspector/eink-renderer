@@ -1,0 +1,14 @@
+{
+  "domain": "eink_renderer",
+  "name": "E-ink Renderer",
+  "codeowners": ["@packetinspector"],
+  "config_flow": true,
+  "dependencies": ["http", "frontend", "panel_custom", "lovelace"],
+  "documentation": "https://github.com/packetinspector/eink-renderer",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/packetinspector/eink-renderer/issues",
+  "requirements": [],
+  "version": "0.3.1",
+  "zeroconf": ["_eink-renderer._tcp.local."]
+}

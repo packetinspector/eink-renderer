@@ -1,0 +1,28 @@
+# Headless / GitOps: no Home Assistant integration, everything from environment variables.
+# Environment variables always win over settings made in Home Assistant.
+services:
+  eink-renderer:
+    image: ghcr.io/packetinspector/eink-renderer:latest
+    container_name: eink-renderer
+    restart: unless-stopped
+    ports:
+      - "10001:10001"
+    environment:
+      HA_URL: http://homeassistant.local:8123
+      HA_TOKEN_FILE: /run/secrets/ha_token
+      DASHBOARD_PATH: /lovelace/0
+      TZ: Etc/UTC
+      # THEME: E-ink
+      # BLOCK_RESOURCES: /hacsfiles/,/local/community/
+    volumes:
+      - ./ha_token:/run/secrets/ha_token:ro   # file with only the token, chmod 600, owned by uid 1000
+      - eink-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 400m
+volumes:
+  eink-data:
